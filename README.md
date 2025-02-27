@@ -1,5 +1,5 @@
 # DiSeNE: Disentangled and self-explainable node representation learning
-The code has been tested with Python 3.11.5.
+The code has been tested with Python 3.10.15.
 
 ## Repository structure 
 ### Python scripts
