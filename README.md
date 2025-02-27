@@ -1,5 +1,5 @@
 # DiSeNE: Disentangled and self-explainable node representation learning
-Code and data accompanying the ICLR submission. The code has been tested with Python 3.11.5.
+The code has been tested with Python 3.11.5.
 
 ## Repository structure 
 ### Python scripts
