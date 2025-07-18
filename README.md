@@ -1,4 +1,4 @@
-# DiSeNE: Disentangled and self-explainable node representation learning
+# DiSeNE: disentangled and self-explainable node representation learning
 The code has been tested with Python 3.10.15.
 
 ## Repository structure 
