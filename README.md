@@ -1,5 +1,9 @@
 # DiSeNE: disentangled and self-explainable node representation learning
-The code has been tested with Python 3.10.15.
+The code has been tested with Python 3.10.15. To run the scripts and reproduce results, set up the conda environment using the provided YAML file:
+   ```bash
+   conda env create -f environment.yml
+   conda activate disene
+   ```
 
 ## Repository structure 
 ### Python scripts
