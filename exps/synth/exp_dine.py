@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('--dataset', default="ring_of_cliques", type=str,
                   help='input dataset')
-#"ring_of_cliques", "stochastic_block_model", "ba_cliques", "er_cliques"
+#"ring_of_cliques", "stochastic_block_model", "ba_cliques", "er_cliques", "tree_cliques", "tree_grids"
 
 parser.add_argument('--model', default="deepwalk", type=str,
                   help='input model')

@@ -7,7 +7,7 @@ The code has been tested with Python 3.10.15. To run the scripts and reproduce r
 
 ## Repository structure 
 ### Python scripts
-In `exps/real/` and `exps/synth/` there are python scripts to train embeddings on real-world ("cora", "wiki", "facebook", "ppi") and synthetic data ("ring_of_cliques", "stochastic_block_model", "ba_cliques", "er_cliques") respectively.
+In `exps/real/` and `exps/synth/` there are python scripts to train embeddings on real-world ("cora", "wiki", "facebook", "ppi") and synthetic data ("ring_of_cliques", "stochastic_block_model", "ba_cliques", "er_cliques", "tree_cliques", "tree_grids") respectively.
 
   ```bash
     python exp_disene.py --dataset \ (default 'cora' or 'ring_of_cliques')  

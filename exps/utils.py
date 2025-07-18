@@ -21,8 +21,8 @@ from torch_geometric.utils import from_networkx, negative_sampling, to_networkx
 import torch_geometric.transforms as T
 
 from torch_geometric.datasets import ExplainerDataset, StochasticBlockModelDataset, AttributedGraphDataset
-from torch_geometric.datasets.graph_generator import BAGraph, ERGraph
-from torch_geometric.datasets.motif_generator import MotifGenerator, CustomMotif
+from torch_geometric.datasets.graph_generator import BAGraph, ERGraph, TreeGraph
+from torch_geometric.datasets.motif_generator import MotifGenerator, CustomMotif, GridMotif, CycleMotif
 from torch_geometric.data import Data
 from itertools import combinations
 import pickle
@@ -89,7 +89,7 @@ def prepare_protein_dataset(dataset_name):
 
     return data, graph
 
-def prepare_dataset(dataset_name, num_cliques=32, num_nodes=10):
+def prepare_dataset(dataset_name, num_cliques=32, num_nodes=10, tree_depth=8):
 
     if dataset_name in ["ba_cliques", 'er_cliques']:
         
@@ -110,6 +110,38 @@ def prepare_dataset(dataset_name, num_cliques=32, num_nodes=10):
                 num_motifs=num_cliques,
             )
 
+        x = torch.eye(dataset[0].num_nodes)
+        data = Data(x=x, edge_index=dataset[0].edge_index, edge_mask=dataset[0].edge_mask, node_mask=dataset[0].node_mask)
+
+        #cliques identity label
+        data.node_mask[data.node_mask==1] = torch.tensor([[1.*(cl+1),]*clique_motif.number_of_nodes() for cl in range(num_cliques)]).ravel()
+        data.edge_mask[data.edge_mask==1] = torch.tensor([[1.*(cl+1),]*clique_motif.number_of_edges()*2 for cl in range(num_cliques)]).ravel()
+
+        #add random edges and update edge_mask
+        edge_index, added_edges = add_random_edge(data.edge_index, p=0.05, force_undirected=True)
+        data.edge_index = edge_index
+        data.edge_mask = torch.cat([data.edge_mask, torch.zeros(added_edges.shape[1])])
+
+        data.node_mask = torch.as_tensor(data.node_mask, dtype=int)
+        data.edge_mask = torch.as_tensor(data.edge_mask, dtype=int)
+
+    if dataset_name in ["tree_cliques", "tree_grids"]:
+
+        if dataset_name=='tree_cliques':
+            clique_motif = nx.from_edgelist(combinations(range(num_nodes), 2), create_using=nx.Graph)
+            CliqueMotif = CustomMotif(clique_motif)
+        elif dataset_name=='tree_grids':
+            CliqueMotif = GridMotif()
+            clique_motif = to_networkx(CliqueMotif.structure, to_undirected=True, remove_self_loops=True)
+
+        tg.seed_everything(42)
+
+        dataset = ExplainerDataset(
+                graph_generator=TreeGraph(depth=tree_depth, undirected=True),
+                motif_generator=CliqueMotif,
+                num_motifs=num_cliques,
+                )
+       
         x = torch.eye(dataset[0].num_nodes)
         data = Data(x=x, edge_index=dataset[0].edge_index, edge_mask=dataset[0].edge_mask, node_mask=dataset[0].node_mask)
 
