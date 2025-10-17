@@ -4,6 +4,17 @@ The code has been tested with Python 3.10.15. To run the scripts and reproduce r
    conda env create -f environment.yml
    conda activate disene
    ```
+If you use the code in this repository, please consider citing us:
+```bibtex
+@article{
+piaggesi2025disentangled,
+title={Disentangled and Self-Explainable Node Representation Learning},
+author={Simone Piaggesi and Andr{\'e} Panisson and Megha Khosla},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2025}
+}
+```
 
 ## Repository structure 
 ### Python scripts
